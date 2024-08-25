@@ -21,13 +21,24 @@ export default function Generator() {
     return (
         <SectionWrapper header={"generate your workout"} title={['It\'s', 'Huge', 'o\'clock']}>
             <Header index={"01"} title={'Pick Your Poison'} description={'Select the workout you wish to endure'} />
-            {Object.keys(WORKOUTS).map((type, typeIndex) => {
-                return (
-                    <button key={typeIndex}>
-                        <p>{type}</p>
-                    </button>
-                )
-            })}
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
+                {Object.keys(WORKOUTS).map((type, typeIndex) => {
+                    return (
+                        <button className='bg-slate-950 border border-blue-400 py-2 rounded-lg duration-200 hover:border-blue-600 ' key={typeIndex}>
+                            <p className='capitalize'>{type}</p>
+                        </button>
+                    )
+                })}
+            </div>
+            <Header index={"02"} title={'Lock on targets'} description={'Select the muscle judged for anhilation'} />
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
+                <div>
+                    <p>
+                        Select muscle groups
+                    </p>
+                </div>
+            </div>
+
 
         </SectionWrapper>
     )
