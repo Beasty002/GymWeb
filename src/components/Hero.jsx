@@ -12,4 +12,4 @@ export default function Hero() {
             <button className='px-8 py-4 rounded-md bg-slate-950 border-[2px] border-blue-400 border-solid blueShadow duration-200'><p>Accept & Begin</p></button>
         </div>
     )
-}
+} 
