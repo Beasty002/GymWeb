@@ -26,18 +26,26 @@ export default function Generator() {
         setModal(!showModal)
     }
     function updateMuscles(muscleGroup) {
-        if (muscles.length > 2) {
-            return
-        }
-        if (poison !== 'individual') {
-            setMuscles([muscleGroup])
-            return
-        }
         if (muscles.includes(muscleGroup)) {
             setMuscles(muscles.filter(val => val !== muscleGroup))
             return
         }
+
+        if (muscles.length > 3) {
+            return
+        }
+
+        if (poison !== 'individual') {
+            setMuscles([muscleGroup])
+            setShowModal(false)
+            return
+        }
+
         setMuscles([...muscles, muscleGroup])
+        if (muscles.length === 2) {
+            setShowModal(false)
+        }
+
     }
 
 
@@ -68,7 +76,9 @@ export default function Generator() {
                     <div className='flex flex-col px-3 pb-3 gap-1'>
                         {(poison === 'individual' ? WORKOUTS[poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => {
                             return (
-                                <button key={muscleGroupIndex} className='hover:text-blue-400 duration-200 '>
+                                <button onClick={() => {
+                                    updateMuscles(muscleGroup)
+                                }} key={muscleGroupIndex} className={'hover:text-blue-400 duration-200 ' + (muscles.includes(muscleGroup) ? ' text-blue-400' : ' ')}>
                                     <p className='uppercase '>{muscleGroup.replaceAll('_', ' ')}</p>
                                 </button>
                             )
