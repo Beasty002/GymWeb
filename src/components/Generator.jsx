@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SectionWrapper from './SectionWrapper'
 import { SCHEMES, WORKOUTS } from '../utils/swoldier'
+import Button from './Button'
 function Header(props) {
     const { index, title, description } = props
     return (
@@ -20,23 +21,38 @@ export default function Generator() {
     const [poison, setPoison] = useState('individual')
     const [muscles, setMuscles] = useState([])
     const [goal, setGoal] = useState('strength_power')
-    // useEffect(() => {
-    //     console.log(muscles);
-    // }, [muscles]);
+
+    useEffect(() => {
+        console.log(muscles.length + muscles);
+    }, [muscles]);
 
     function updateMuscles(muscleGroup) {
+
         if (muscles.includes(muscleGroup)) {
-            setMuscles(muscles.filter(m => m != muscleGroup))
+            setMuscles(muscles.filter(m => m !== muscleGroup))
             return
         }
+
         if (muscles.length >= 3) {
+            console.log("the length is " + muscles.length)
             return
         }
+
         if (poison != 'individual') {
+            console.log("selected")
             setMuscles([muscleGroup])
+            setShowModal(false)
             return
         }
+
         setMuscles([...muscles, muscleGroup])
+        console.log(muscles)
+
+
+
+        if (muscles.length === 2) {
+            setShowModal(false)
+        }
 
 
     }
@@ -51,9 +67,10 @@ export default function Generator() {
                 {Object.keys(WORKOUTS).map((type, typeIndex) => {
                     return (
                         <button onClick={() => {
+                            setMuscles([])
                             setPoison(type)
                         }}
-                            className={'bg-slate-950 border duration-200 hover:border-blue-600 py-3 rounded-lg ' + (type === poison ? 'border-blue-600' : 'border-blue-400')} key={typeIndex}>
+                            className={'bg-slate-950 border px-4 duration-200 hover:border-blue-600 py-3 rounded-lg ' + (type === poison ? 'border-blue-600' : 'border-blue-400')} key={typeIndex}>
                             <p className='capitalize'>{type.replaceAll('_', ' ')}</p>
                         </button>
                     )
@@ -63,7 +80,7 @@ export default function Generator() {
             <Header index={'02'} title={'Lock on Targets'} description={"Select the muscles judged for anhilation."} />
             <div className='bg-slate-950 border border-solid border-blue-400 rounded-lg flex flex-col'>
                 <button onClick={toggleModal} className='relative p-3 flex items-center justify-center'>
-                    <p>Select the muscle groups</p>
+                    <p className='capitalize'>{muscles.length === 0 ? 'Select the muscle groups' : muscles.join(' ')}</p>
                     <i className="fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2"></i>
                 </button>
                 {showModal && (
@@ -88,12 +105,14 @@ export default function Generator() {
                         <button onClick={() => {
                             setGoal(scheme)
                         }}
-                            className={'bg-slate-950 border duration-200 hover:border-blue-600 py-3 rounded-lg ' + (scheme === goal ? 'border-blue-600' : 'border-blue-400')} key={schemeIndex}>
+                            className={'bg-slate-950 border duration-200 hover:border-blue-600 py-3 px-4 rounded-lg ' + (scheme === goal ? 'border-blue-600' : 'border-blue-400')} key={schemeIndex}>
                             <p className='capitalize'>{scheme.replaceAll('_', ' ')}</p>
                         </button>
                     )
                 })}
             </div>
+            <Button text={"Formulate"} > </Button>
+
 
 
         </SectionWrapper>
